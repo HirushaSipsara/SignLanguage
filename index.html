@@ -67,7 +67,7 @@
         //         audio.play();
         //     }
         // }
-        const socket = new WebSocket('ws://<ESP_IP_ADDRESS>:81');
+        const socket = new WebSocket('ws://192.168.1.110:81');
 
         socket.onopen = function(event) {
         console.log('WebSocket is open now.');
