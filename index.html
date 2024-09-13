@@ -19,71 +19,55 @@
         }
     </style>
     <script>
-        // // List of audio files for each direction hosted on your web server
-        // const audioFiles = {
-        //     "Tilt Right": "./mp3/TiltRight.mp3",
-        //     "Tilt Left": "./mp3/TiltLeft.mp3",
-        //     "Tilt Forward": "./mp3/TiltForward.mp3",
-        //     "Tilt Backward": "./mp3/TiltBackward.mp3",
-        //     "Flat": "./mp3/Flat.mp3",
-        //     "Upside Down": "./mp3/UpsideDown.mp3",
-        //     "Neutral": "./mp3/Neutral.mp3"
-        // };
+        // List of audio files for each direction hosted on your web server
+        const audioFiles = {
+            "Tilt Right": "./mp3/TiltRight.mp3",
+            "Tilt Left": "./mp3/TiltLeft.mp3",
+            "Tilt Forward": "./mp3/TiltForward.mp3",
+            "Tilt Backward": "./mp3/TiltBackward.mp3",
+            "Flat": "./mp3/Flat.mp3",
+            "Upside Down": "./mp3/UpsideDown.mp3",
+            "Neutral": "./mp3/Neutral.mp3"
+        };
 
-        // // Initialize WebSocket
-        // const socket = new WebSocket('ws://192.168.1.110/ws'); // Replace <ESP_IP_ADDRESS> with your ESP's IP address
+        // Initialize WebSocket
+        const socket = new WebSocket('ws://192.168.1.110/80'); // Replace <ESP_IP_ADDRESS> with your ESP's IP address
 
-        // // WebSocket connection opened
-        // socket.onopen = function(event) {
-        //     console.log('Connected to WebSocket server.');
-        // };
-
-        // // WebSocket message received
-        // socket.onmessage = function(event) {
-        //     const direction = event.data.trim();
-        //     updateDirection(direction);  // Update direction and play audio
-        // };
-
-        // // WebSocket error
-        // socket.onerror = function(error) {
-        //     console.log('WebSocket Error:', error);
-        // };
-
-        // // WebSocket connection closed
-        // socket.onclose = function(event) {
-        //     console.log('WebSocket connection closed.');
-        // };
-
-        // // Function to update direction text and play audio
-        // function updateDirection(direction) {
-        //     document.getElementById('direction-display').innerText = direction; // Update the direction text
-        //     playAudio(direction);  // Play the corresponding audio
-        // }
-
-        // // Function to play audio based on direction
-        // function playAudio(direction) {
-        //     if (audioFiles[direction]) {
-        //         const audio = new Audio(audioFiles[direction]);
-        //         audio.play();
-        //     }
-        // }
-        const socket = new WebSocket('ws://192.168.1.110:81');
-
+        // WebSocket connection opened
         socket.onopen = function(event) {
-        console.log('WebSocket is open now.');
+            console.log('Connected to WebSocket server.');
         };
 
+        // WebSocket message received
         socket.onmessage = function(event) {
-        console.log('Message from server ', event.data);
+            const direction = event.data.trim();
+            updateDirection(direction);  // Update direction and play audio
         };
 
-        socket.onclose = function(event) {
-        console.log('WebSocket is closed now.');
-        };
-
+        // WebSocket error
         socket.onerror = function(error) {
-        console.error('WebSocket error: ', error);
+            console.log('WebSocket Error:', error);
         };
+
+        // WebSocket connection closed
+        socket.onclose = function(event) {
+            console.log('WebSocket connection closed.');
+        };
+
+        // Function to update direction text and play audio
+        function updateDirection(direction) {
+            document.getElementById('direction-display').innerText = direction; // Update the direction text
+            playAudio(direction);  // Play the corresponding audio
+        }
+
+        // Function to play audio based on direction
+        function playAudio(direction) {
+            if (audioFiles[direction]) {
+                const audio = new Audio(audioFiles[direction]);
+                audio.play();
+            }
+        }
+       
 
     </script>
 </head>
