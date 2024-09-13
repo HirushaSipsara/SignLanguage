@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Tilt Sensor Audio Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .direction {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        // List of audio files for each direction hosted on your web server
+        const audioFiles = {
+            "Tilt Right": "./mp3/TiltRight.mp3",
+            "Tilt Left": "./mp3/TiltRight.mp3",
+            "Tilt Forward": "./mp3/TiltRight.mp3",
+            "Tilt Backward": "./mp3/TiltRight.mp3",
+            "Flat": "./mp3/TiltRight.mp3",
+            "Upside Down": "./mp3/TiltRight.mp3",
+            "Neutral": "./mp3/TiltRight.mp3"
+        };
+
+        // Function to update direction text and play audio
+function updateDirection(direction) {
+    document.getElementById('direction-display').innerText = direction; // Update the direction text
+    playAudio(direction);  // Play the corresponding audio
+}
+
+// Function to play audio based on direction
+function playAudio(direction) {
+    if (audioFiles[direction]) {
+        const audio = new Audio(audioFiles[direction]);
+        audio.play();
+    }
+}
+
+// Function to fetch the current tilt direction from the ESP8266/ESP32
+function fetchDirection() {
+    fetch('http://<ESP_IP_ADDRESS>/getDirection')  // Replace <ESP_IP_ADDRESS> with the actual IP address of your ESP8266/ESP32
+        .then(response => response.text())
+        .then(direction => {
+            updateDirection(direction.trim());  // Update direction on successful response
+        })
+        .catch(error => console.error('Error fetching direction:', error));  // Log any errors
+}
+
+// Fetch direction data every 2 seconds
+setInterval(fetchDirection, 2000);
+    </script>
+</head>
+<body>
+    <h1>MPU6050 Tilt Direction</h1>
+    <p class="direction" id="direction-display">Neutral</p>
+
+    <!-- Button to Simulate Direction Change (for testing only) -->
+    <button onclick="simulateDirectionChange()">Simulate Direction Change</button>
+
+    <script>
+        // This function can be replaced with real-time updates from the ESP8266/ESP32 server
+        // Make an AJAX call to the ESP server and get the current direction, then call updateDirection()
+    </script>
+</body>
+</html>
