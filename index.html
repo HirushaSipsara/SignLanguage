@@ -19,22 +19,40 @@
         }
     </style>
     <script>
-        // JavaScript code to fetch tilt direction from ESP8266/ESP32
-        document.addEventListener('DOMContentLoaded', function() {
-        // Replace <ESP_IP_ADDRESS> with the actual IP address of your ESP8266/ESP32
-        const espIpAddress = "http://192.168.1.110"; // Example: http://192.168.1.100
+        // List of audio files for each direction hosted on your web server
+        const audioFiles = {
+            "Tilt Right": "./mp3/TiltRight.mp3",
+            "Tilt Left": "./mp3/TiltLeft.mp3",
+            "Tilt Forward": "./mp3/TiltForward.mp3",
+            "Tilt Backward": "./mp3/TiltBackward.mp3",
+            "Flat": "./mp3/Flat.mp3",
+            "Upside Down": "./mp3/UpsideDown.mp3",
+            "Neutral": "./mp3/Neutral.mp3"
+        };
 
-        function fetchDirection() {
-            fetch(espIpAddress)
-                .then(response => response.text())
-                .then(direction => {
-                    updateDirection(direction.trim());  // Update the web page with the fetched direction
-                })
-                .catch(error => console.error('Error fetching direction:', error));  // Log any errors
-        }
+        // Initialize WebSocket
+        const socket = new WebSocket('ws://192.168.1.110/ws'); // Replace <ESP_IP_ADDRESS> with your ESP's IP address
 
-        // Call fetchDirection function every 2 seconds to get real-time updates
-        setInterval(fetchDirection, 2000);
+        // WebSocket connection opened
+        socket.onopen = function(event) {
+            console.log('Connected to WebSocket server.');
+        };
+
+        // WebSocket message received
+        socket.onmessage = function(event) {
+            const direction = event.data.trim();
+            updateDirection(direction);  // Update direction and play audio
+        };
+
+        // WebSocket error
+        socket.onerror = function(error) {
+            console.log('WebSocket Error:', error);
+        };
+
+        // WebSocket connection closed
+        socket.onclose = function(event) {
+            console.log('WebSocket connection closed.');
+        };
 
         // Function to update direction text and play audio
         function updateDirection(direction) {
@@ -44,22 +62,11 @@
 
         // Function to play audio based on direction
         function playAudio(direction) {
-            const audioFiles = {
-            "Tilt Right": "./mp3/TiltRight.mp3",
-            "Tilt Left": "./mp3/TiltRight.mp3",
-            "Tilt Forward": "./mp3/TiltRight.mp3",
-            "Tilt Backward": "./mp3/TiltRight.mp3",
-            "Flat": "./mp3/TiltRight.mp3",
-            "Upside Down": "./mp3/TiltRight.mp3",
-            "Neutral": "./mp3/TiltRight.mp3"
-        };
-            
             if (audioFiles[direction]) {
                 const audio = new Audio(audioFiles[direction]);
                 audio.play();
             }
         }
-    });
 
     </script>
 </head>
