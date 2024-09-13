@@ -45,14 +45,14 @@
         // Function to play audio based on direction
         function playAudio(direction) {
             const audioFiles = {
-                "Tilt Right": "https://hirushasipsara.github.io/SignLanguage/Tilt%20Right.mp3",
-                "Tilt Left": "https://hirushasipsara.github.io/SignLanguage/Tilt%20Left.mp3",
-                "Tilt Forward": "https://hirushasipsara.github.io/SignLanguage/Tilt%20Forward.mp3",
-                "Tilt Backward": "https://hirushasipsara.github.io/SignLanguage/Tilt%20Backward.mp3",
-                "Flat": "https://hirushasipsara.github.io/SignLanguage/Flat.mp3",
-                "Upside Down": "https://hirushasipsara.github.io/SignLanguage/Upside%20Down.mp3",
-                "Neutral": "https://hirushasipsara.github.io/SignLanguage/Neutral.mp3"
-            };
+            "Tilt Right": "./mp3/TiltRight.mp3",
+            "Tilt Left": "./mp3/TiltRight.mp3",
+            "Tilt Forward": "./mp3/TiltRight.mp3",
+            "Tilt Backward": "./mp3/TiltRight.mp3",
+            "Flat": "./mp3/TiltRight.mp3",
+            "Upside Down": "./mp3/TiltRight.mp3",
+            "Neutral": "./mp3/TiltRight.mp3"
+        };
             
             if (audioFiles[direction]) {
                 const audio = new Audio(audioFiles[direction]);
